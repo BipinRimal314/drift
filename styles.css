@@ -158,15 +158,19 @@ html, body {
   font-weight: 400;
 }
 
-/* ── Equivalent time ─────────────────────────── */
-.equiv-time {
-  display: flex;
+/* ── Local time (secondary, hidden by default) ── */
+.local-time {
+  display: none;
   align-items: center;
   gap: 5px;
   margin-top: 4px;
 }
 
-.equiv-label {
+.local-time.visible {
+  display: flex;
+}
+
+.local-label {
   font-size: 8px;
   color: #3F3F46;
   font-weight: 400;
@@ -175,7 +179,7 @@ html, body {
   font-family: 'Space Grotesk', sans-serif;
 }
 
-.equiv-value {
+.local-value {
   font-size: 10px;
   color: #52525B;
   font-weight: 400;
@@ -229,6 +233,13 @@ html, body {
   transition: background-color 0.8s ease;
 }
 
+/* ── Button row ──────────────────────────────── */
+.btn-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 /* ── Info button ──────────────────────────────── */
 .info-btn {
   background: none;
@@ -246,6 +257,39 @@ html, body {
 .info-btn:hover {
   border-color: #3F3F46;
   color: #71717A;
+}
+
+/* ── Shift button ────────────────────────────── */
+.shift-btn {
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  color: #3F3F46;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.shift-btn:hover {
+  color: #71717A;
+}
+
+.shift-btn.active {
+  color: #71717A;
+}
+
+.shift-btn.active::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4ADE80;
+  margin-right: 5px;
+  vertical-align: middle;
+  box-shadow: 0 0 4px #4ADE8060;
 }
 
 /* ── Info panel ───────────────────────────────── */
@@ -280,6 +324,144 @@ html, body {
 
 .info-panel .highlight {
   color: #FAFAFA;
+}
+
+/* ── Shift panel (overlay) ───────────────────── */
+.shift-panel {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  animation: fadeIn 0.4s ease-out;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid #1C1C1E;
+  background-color: #0F0F10;
+  display: none;
+  z-index: 10;
+}
+
+.shift-panel.visible {
+  display: block;
+}
+
+.shift-header {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #A1A1AA;
+  margin-bottom: 6px;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.shift-desc {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #71717A;
+  margin: 0 0 14px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400;
+}
+
+.shift-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.shift-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shift-field-label {
+  font-size: 9px;
+  color: #52525B;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.shift-input {
+  background: #18181B;
+  border: 1px solid #27272A;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #E4E4E7;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  transition: border-color 0.3s ease;
+  color-scheme: dark;
+}
+
+.shift-input:focus {
+  border-color: #4ADE80;
+}
+
+.shift-preview {
+  text-align: center;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #4ADE80;
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
+}
+
+.shift-preview.zero {
+  color: #52525B;
+}
+
+.shift-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.shift-actions button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.shift-cancel {
+  background: none;
+  color: #52525B;
+}
+
+.shift-cancel:hover {
+  color: #71717A;
+}
+
+.shift-off {
+  background: none;
+  color: #F87171;
+  display: none;
+}
+
+.shift-off.visible {
+  display: inline-block;
+}
+
+.shift-off:hover {
+  color: #FCA5A5;
+}
+
+.shift-start {
+  background: #4ADE8020;
+  color: #4ADE80;
+}
+
+.shift-start:hover {
+  background: #4ADE8030;
 }
 
 /* ── Bottom signature ─────────────────────────── */
