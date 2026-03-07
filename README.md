@@ -1,88 +1,95 @@
-# Drift
+# Drift (Native)
 
-**A macOS menubar app that shows the current hour as a percentage (0–100%).**
+macOS menubar app that shows the current hour as a percentage (0–100%) instead of minutes. Built for ADHD-adjacent brains that think in percentages, not base-60.
 
-Your brain thinks in percentages, not sixths. When a clock says `:30`, it doesn't *feel* like half. But `50%` does. Drift translates time into a language your mind already speaks.
+This is the native Swift/SwiftUI rewrite. The original Electron version lives in `../clock/`.
 
-![Screenshot Placeholder](screenshot.png)
+## What Changed
 
-## Why?
+| Metric | Electron | Native |
+|--------|----------|--------|
+| Binary | ~95MB | <5MB |
+| Memory | ~100MB | ~20MB |
+| Startup | 2-3s | <200ms |
+| CPU idle | 0.1-0.5% | Undetectable |
 
-ADHD brains (and many others) struggle with base-60 time. Minutes don't map to intuitive proportional thinking. Drift replaces `:00`–`:59` with `0%`–`100%`, giving you an instant feel for where you are in the hour.
+## Requirements
 
-- **0–25% (fresh)** — the hour just started, green
-- **25–50% (flowing)** — quarter gone, yellow
-- **50–75% (ticking)** — past the halfway mark, orange
-- **75–100% (closing)** — the hour is almost up, red
+- macOS 14.0+
+- Xcode 16+
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen) (for project generation)
 
-A subtle flash at each quarter boundary (25%, 50%, 75%, 0%) keeps you anchored without being annoying.
-
-## Features
-
-- Lives in the macOS menubar — shows `63%` as text, no distracting icon
-- Click to open a floating dark panel with a circular progress ring
-- Color-coded phases (green → yellow → orange → red)
-- Real clock time displayed as secondary info
-- Minutes remaining in the hour
-- "Why 100?" explainer toggle
-- Right-click for context menu with "Launch at Login" option
-- Lightweight — no background resource drain
-
-## Tech Stack
-
-- [Electron](https://www.electronjs.org/) + [menubar](https://github.com/nicktaf/menubar)
-- Vanilla HTML/CSS/JS renderer (no framework overhead)
-- Fonts: JetBrains Mono + Space Grotesk (loaded from Google Fonts)
-
-## Install
-
-### Download (no coding required)
-
-1. Go to [Releases](https://github.com/BipinRimal314/drift/releases)
-2. Download the `.dmg` for your Mac:
-   - **Apple Silicon** (M1/M2/M3/M4): `Drift-*-arm64.dmg`
-   - **Intel**: `Drift-*-x64.dmg`
-3. Open the `.dmg`, drag Drift to Applications
-4. Launch from Applications — macOS will block it the first time since it's unsigned
-5. Go to **System Settings → Privacy & Security**, scroll down, click **"Open Anyway"**
-6. Right-click the percentage in your menubar → check **"Launch at Login"**
-
-### Build from Source
-
-Requires Node.js 18+ and npm.
+## Build
 
 ```bash
-git clone https://github.com/BipinRimal314/drift.git
-cd drift
-npm install
-npm start          # run in dev mode
-npm run build      # build .dmg for Apple Silicon
-npm run build:intel    # build .dmg for Intel Macs
-npm run build:universal # build .dmg that works on both
+# Generate Xcode project (only needed once, or after changing project.yml)
+xcodegen generate
+
+# Build from command line
+xcodebuild build -scheme Drift -destination 'platform=macOS'
+
+# Or open in Xcode
+open Drift.xcodeproj
 ```
 
-Outputs go to `dist/`.
+## Test
 
-## File Structure
-
-```
-drift/
-├── package.json      # Dependencies & electron-builder config
-├── main.js           # Electron main process + menubar setup
-├── index.html        # Panel HTML
-├── renderer.js       # Timer logic & DOM updates (vanilla JS)
-├── styles.css        # All styles & animations
-├── icon.png          # Menubar icon placeholder
-├── LICENSE           # MIT
-└── README.md
+```bash
+xcodebuild test -scheme Drift -destination 'platform=macOS'
 ```
 
-## Design
+## Architecture
 
-Designed by [Bipin Rimal](https://bipinrimal.com.np). Dark theme only — looks great as a floating panel in both light and dark macOS modes.
+**Hybrid AppKit + SwiftUI:**
 
-Typography uses JetBrains Mono for the percentage display and Space Grotesk for labels. The circular progress ring features smooth CSS transitions, ambient glow effects, and decorative tick marks at quarter boundaries.
+- `NSStatusItem` (AppKit) for menubar text — SwiftUI's `MenuBarExtra` can't do custom dark transparent panels
+- `NSPanel` subclass (AppKit) for the frameless, transparent floating window
+- SwiftUI views inside the panel via `NSHostingView`
+- `NSMenu` (AppKit) for right-click context menu
+
+### File Structure
+
+```
+Drift/
+├── App/
+│   ├── DriftApp.swift              # @main entry
+│   └── AppDelegate.swift           # NSStatusItem, panel, context menu
+├── Core/
+│   ├── DriftTimeEngine.swift       # @Observable: percentage, phase, shift
+│   └── ShiftConfig.swift           # Codable + UserDefaults persistence
+├── Panel/
+│   ├── DriftPanelWindow.swift      # NSPanel subclass (borderless, transparent)
+│   ├── DriftPanelView.swift        # Root SwiftUI composition
+│   ├── ProgressRingView.swift      # Circle().trim() ring
+│   ├── TickMarksView.swift         # Canvas quarter tick marks
+│   ├── DecorativeRingView.swift    # 120s rotating dashed ring
+│   ├── CenterContentView.swift     # Percentage + clock time
+│   ├── PhaseIndicatorView.swift    # Pulsing dot + phase label
+│   ├── SegmentBarView.swift        # 4 progress segments
+│   ├── ButtonRowView.swift         # "why 100?" and "time shift"
+│   ├── InfoOverlayView.swift       # Philosophy explanation
+│   └── ShiftOverlayView.swift      # Time shift configuration
+├── Theme/
+│   ├── DriftColors.swift           # All color constants
+│   ├── DriftFonts.swift            # Font registration + accessors
+│   └── DriftAnimations.swift       # Named timing curves
+├── Resources/
+│   ├── Assets.xcassets/
+│   ├── Fonts/                      # JetBrains Mono + Space Grotesk
+│   ├── Info.plist
+│   └── Drift.entitlements
+└── Utilities/
+    ├── Color+Hex.swift
+    └── View+FlashEffect.swift
+```
+
+## Phases
+
+- **Fresh** (0–24%): Green `#4ADE80`
+- **Flowing** (25–49%): Yellow `#FACC15`
+- **Ticking** (50–74%): Orange `#FB923C`
+- **Closing** (75–100%): Red `#F87171`
 
 ## License
 
-[MIT](LICENSE)
+MIT

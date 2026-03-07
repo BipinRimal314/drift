@@ -1,6 +1,14 @@
-node_modules/
-dist/
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+
+# macOS
 .DS_Store
-.claude/
-*.dmg
-*.zip
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
