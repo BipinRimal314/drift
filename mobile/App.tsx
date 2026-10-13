@@ -101,7 +101,7 @@ function Drift() {
       <StatusBar style="light" />
       <ScrollView contentContainerStyle={styles.page}>
         <View style={styles.header}>
-          <Text style={[styles.brand, useCustomFonts && { fontFamily: 'SpaceMedium' }]}>drift<Text style={{ color: clock.phase.color }}>.</Text></Text>
+          <Text style={[styles.brand, useCustomFonts && { fontFamily: 'SpaceMedium' }]}>Drift<Text style={{ color: clock.phase.color }}>.</Text></Text>
           <Text style={[styles.eyebrow, bodyFont]}>A DIFFERENT KIND OF CLOCK</Text>
         </View>
         <View style={styles.clockArea}>
