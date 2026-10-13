@@ -1,0 +1,7 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+  android:minWidth="180dp" android:minHeight="160dp"
+  android:targetCellWidth="3" android:targetCellHeight="2"
+  android:minResizeWidth="180dp" android:minResizeHeight="160dp"
+  android:initialLayout="@layout/drift_widget" android:previewLayout="@layout/drift_widget"
+  android:resizeMode="horizontal|vertical" android:updatePeriodMillis="1800000"
+  android:widgetCategory="home_screen" android:description="@string/drift_widget_description" />

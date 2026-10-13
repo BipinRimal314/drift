@@ -1,0 +1,12 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="160dp"
+  android:orientation="vertical" android:padding="16dp" android:background="@drawable/drift_widget_background">
+  <TextView android:id="@+id/drift_title" android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:text="DRIFT" android:textColor="#CCCCCC" android:textSize="12sp" />
+  <TextView android:id="@+id/drift_percentage" android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:text="0%" android:textSize="36sp" android:textStyle="bold" android:textColor="#4ADE80" />
+  <TextView android:id="@+id/drift_detail" android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:text="Fresh · 60 minutes left" android:textSize="14sp" android:textColor="#EEEEEE" />
+  <TextView android:id="@+id/drift_refresh" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48dp"
+    android:gravity="center_vertical" android:text="Updated now · Tap to refresh" android:textSize="12sp" android:textColor="#CCCCCC" />
+</LinearLayout>

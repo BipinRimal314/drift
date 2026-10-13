@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Drift",
+    "slug": "drift",
+    "version": "1.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bipinrimal.drift.mobile"
+    },
+    "android": {
+      "package": "com.bipinrimal.drift.mobile"
+    },
+    "plugins": [
+      "expo-font",
+      "./plugins/withDriftWidget.cjs"
+    ],
+    "icon": "./assets/icon.png"
+  }
+}

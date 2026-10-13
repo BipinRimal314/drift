@@ -1,0 +1,3 @@
+<resources>
+  <string name="drift_widget_description">Hour percentage, phase, and minutes left. Tap the percentage to open Drift. Tap the update time to refresh.</string>
+</resources>
