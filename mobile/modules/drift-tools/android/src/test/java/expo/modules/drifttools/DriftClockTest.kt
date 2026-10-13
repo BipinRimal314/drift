@@ -6,6 +6,22 @@ import java.util.Calendar
 import java.util.TimeZone
 
 class DriftClockTest {
+  @Test fun updateAtPercentageAndMinuteBoundaries() {
+    val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kathmandu"))
+    calendar.set(2026, Calendar.OCTOBER, 13, 9, 0, 0)
+    calendar.set(Calendar.MILLISECOND, 0)
+    assertEquals(36_000L, DriftClock.nextUpdateDelay(calendar))
+    calendar.set(Calendar.SECOND, 36)
+    assertEquals(24_000L, DriftClock.nextUpdateDelay(calendar))
+    calendar.set(Calendar.MINUTE, 59)
+    calendar.set(Calendar.SECOND, 59)
+    calendar.set(Calendar.MILLISECOND, 999)
+    assertEquals(1L, DriftClock.nextUpdateDelay(calendar))
+    calendar.add(Calendar.MILLISECOND, 1)
+    assertEquals(0, DriftClock.read(calendar).percentage)
+    assertEquals(36_000L, DriftClock.nextUpdateDelay(calendar))
+  }
+
   @Test fun localHourBoundaries() {
     val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kathmandu"))
     calendar.set(2026, Calendar.OCTOBER, 13, 9, 0, 0)

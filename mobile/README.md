@@ -18,8 +18,8 @@ The native commands generate the Android and iOS projects before building them.
 iOS requires macOS and Xcode. Android requires the Android SDK and Java.
 Use `npm start` to start the development server for an installed app.
 
-Open **Clock outside Drift** to compare the home screen widget and floating clock.
-Android can use both. iOS has a home screen widget and does not permit a floating clock over other apps.
+Open **Clock outside Drift** to choose a home screen widget, floating clock, or Android status icon.
+Android can use these together. iOS has a home screen widget.
 The widget shows the local hour. Time shift applies only to the clock inside Drift.
 
 On Android, tap **Add home screen widget** and confirm the launcher prompt.
@@ -29,6 +29,15 @@ Drag the percentage to move it. Tap the percentage to open Drift.
 Tap the close control or the notification's **Stop** action to stop it.
 Android can hide the floating clock on protected screens, including some Settings screens.
 The floating clock does not restart automatically after a process stop or device restart.
+
+On Android, **Start status icon** adds a live number to the notification area of the status bar.
+The number is the percentage of the current local hour. Open the notification for the full reading.
+Allow notifications when Android asks. This option does not need display-over-apps permission.
+Updates are silent. **Stop status icon** removes the notification and ends its service.
+The clock pauses updates when the screen is off and refreshes when the screen turns on.
+The icon does not restart automatically after a process stop or device restart.
+Android controls icon placement and visibility. Full-screen apps and notification settings can hide it.
+This notification icon is available only on Android.
 
 On iOS, add Drift through the home screen widget picker.
 The widget requires iOS 17 or later and supports small and medium sizes.
@@ -56,10 +65,11 @@ cd android
 JAVA_HOME=/opt/homebrew/opt/openjdk@21 ./gradlew :drift-tools:testReleaseUnitTest
 ```
 
-The Android phone checks are `qa/android.py` and `qa/outside-android.py`.
+The Android phone checks are `qa/android.py`, `qa/outside-android.py`, and `qa/notification-android.py`.
 Pass the connected phone identifier with `--serial`.
 The first check restores saved wake times, text size, and rotation.
-The demonstration leaves the widget and floating clock enabled.
+The outside-clock demonstration leaves the widget and floating clock enabled.
+The notification check tests background updates and both Stop controls. It leaves the status icon enabled.
 The demonstration uses Samsung's Calculator and permission screen.
 Generate the iOS test project with `xcodegen generate` in `qa`.
 Run its `DriftQA` scheme against a simulator with Drift installed.

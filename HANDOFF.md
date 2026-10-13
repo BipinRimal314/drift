@@ -59,6 +59,33 @@ The APK uses the generated project's development signing key. It is not a Play S
 Its SHA-256 is `9356f19ff36947c295ea132a557d9efe53d8fdcb50fd19f65b53a076d23d33fe`.
 The iOS simulator app is at `/private/tmp/drift-ios-build/Build/Products/Release-iphonesimulator/Drift.app`.
 
+## Android status icon
+
+Android has a third choice: **Status icon**.
+It shows the hour percentage as digits beside the other status bar icons.
+The notification gives the percentage, phase, and remaining minutes, with a **Stop status icon** action.
+It needs notification permission only. It does not need display-over-apps permission.
+Updates are silent. They pause when the screen is off and resume when it turns on.
+A swipe on Android 14 or later stops the service. The icon does not restart after a process stop or device restart.
+
+Android groups Drift's notifications when the floating clock is also on. The status bar digits still show.
+
+Verified on the Samsung A33:
+- `qa/notification-android.py` passes: silent bitmap icon, background update over Calculator, notification Stop, app Stop, restart.
+- `qa/outside-android.py` passes after the services were changed to call `startForeground` first.
+- `npm test`, `npm run typecheck`, `assembleRelease`, and `:drift-tools:testReleaseUnitTest` pass.
+
+Two review rounds approved it. Round 1 fixed an early-stop crash path in both services and the swipe behavior.
+Two suggestions were declined: a shared base class for two services, and a shared QA helper module.
+
+Optional cleanups from round 2, none blocking:
+1. Pass `DriftNotificationService.canShow` directly in `startNotification`; `ensureChannel` there is redundant.
+2. Import `android.util.Log` and `androidx.lifecycle` types instead of full names.
+3. Use named arguments for the four message strings passed to `startTool`.
+4. Move the repeated Android 13 permission request in `OutsideClock.tsx` into one function.
+
+The phone is left with the widget, floating clock, and status icon enabled.
+
 ## Build and behavior limits
 
 Use `mobile/scripts/build-ios.sh` for this workspace path.

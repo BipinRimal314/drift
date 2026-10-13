@@ -67,13 +67,19 @@ class DriftOverlayService : Service() {
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    try {
+      startForeground(ID, notification())
+    } catch (error: RuntimeException) {
+      android.util.Log.e("DriftTools", "Cannot show floating clock", error)
+      stopSelf()
+      return START_NOT_STICKY
+    }
     if (intent?.action == STOP || !Settings.canDrawOverlays(this)) {
       stopSelf()
       return START_NOT_STICKY
     }
     if (capsule != null) return START_NOT_STICKY
     try {
-      startForeground(41, notification())
       showCapsule()
       val filter = IntentFilter().apply {
         addAction(Intent.ACTION_SCREEN_ON)
@@ -241,6 +247,7 @@ class DriftOverlayService : Service() {
   companion object {
     @Volatile var running = false
       private set
+    private const val ID = 41
     private const val CHANNEL = "drift-floating-clock"
     private const val STOP = "expo.modules.drifttools.STOP_OVERLAY"
   }

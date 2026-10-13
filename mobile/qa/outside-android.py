@@ -56,18 +56,23 @@ def overlay_bounds():
     return None
 
 
+SHEET_IDS = ("close-sheet", "toggle-notification", "add-widget", "toggle-overlay")
+
+
 def open_choices():
     adb("shell", "am", "start", "-n", "com.bipinrimal.drift.mobile/.MainActivity")
     time.sleep(1)
-    if not any(node.get("resource-id") in ("add-widget", "toggle-overlay") for node in nodes()):
-        tap("outside-clock", scroll=True)
+    if any(node.get("resource-id") in SHEET_IDS for node in nodes()):
+        adb("shell", "input", "keyevent", "4")
+        time.sleep(0.5)
+    tap("outside-clock", scroll=True)
 
 
 open_choices()
 capture("choices")
 widget_state = adb("shell", "dumpsys", "appwidget").decode().split("Widgets:")[-1].split("Hosts:")[0]
 if "com.bipinrimal.drift.mobile" not in widget_state:
-    tap("add-widget")
+    tap("add-widget", scroll=True)
     capture("pin-confirmation")
     tap("Add")
 adb("shell", "input", "keyevent", "3")
