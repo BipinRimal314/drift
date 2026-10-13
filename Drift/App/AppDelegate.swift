@@ -8,6 +8,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var engine = DriftTimeEngine()
     private var trayTimer: Timer?
     private var clickMonitor: Any?
+    private var lastTrayText = ""
 
     // MARK: - Lifecycle
 
@@ -20,8 +21,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         setupStatusItem()
         updateTrayTitle()
 
-        // Update tray every 36 seconds (one percentage point)
-        trayTimer = Timer.scheduledTimer(withTimeInterval: 36, repeats: true) { [weak self] _ in
+        // Tick every second; the title is only reassigned when the text changes
+        trayTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.updateTrayTitle()
         }
         RunLoop.main.add(trayTimer!, forMode: .common)
@@ -42,6 +43,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func updateTrayTitle() {
         guard let button = statusItem.button else { return }
         let text = engine.menubarText
+        guard text != lastTrayText else { return }
+        lastTrayText = text
         let attributes: [NSAttributedString.Key: Any] = [
             .font: DriftFonts.jetbrainsRegularNS(12),
             .baselineOffset: 0.5
@@ -52,8 +55,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Click Handling
 
     @objc private func statusItemClicked(_ sender: NSStatusBarButton) {
-        let event = NSApp.currentEvent!
-        if event.type == .rightMouseUp {
+        // Accessibility presses arrive with no current event.
+        if NSApp.currentEvent?.type == .rightMouseUp {
             showContextMenu()
         } else {
             togglePanel()
@@ -81,8 +84,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Position below the status item
         let buttonRect = buttonWindow.convertToScreen(button.convert(button.bounds, to: nil))
-        let panelWidth: CGFloat = 280
-        let panelHeight: CGFloat = 420
+        let panelWidth = DriftPanelView.size.width
+        let panelHeight = DriftPanelView.size.height
         let x = buttonRect.midX - panelWidth / 2
         let y = buttonRect.minY - panelHeight - 4
 

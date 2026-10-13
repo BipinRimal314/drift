@@ -1,11 +1,12 @@
 import SwiftUI
 
 struct DriftPanelView: View {
+    static let size = CGSize(width: 280, height: 372)
+
     let engine: DriftTimeEngine
 
     @State private var showInfo = false
     @State private var showShift = false
-    @State private var glowScale: CGFloat = 1.0
 
     var body: some View {
         ZStack {
@@ -18,13 +19,7 @@ struct DriftPanelView: View {
                 .fill(engine.phase.glow)
                 .frame(width: 300, height: 300)
                 .blur(radius: 80)
-                .scaleEffect(glowScale)
                 .allowsHitTesting(false)
-                .onAppear {
-                    withAnimation(DriftAnimations.subtlePulse) {
-                        glowScale = 1.01
-                    }
-                }
 
             // Main content
             VStack(spacing: 16) {
@@ -36,7 +31,6 @@ struct DriftPanelView: View {
 
                 // Ring area
                 ZStack {
-                    DecorativeRingView()
                     TickMarksView(percentage: engine.percentage, phase: engine.phase)
                     ProgressRingView(percentage: engine.percentage, phase: engine.phase)
                     CenterContentView(
@@ -62,18 +56,6 @@ struct DriftPanelView: View {
                 )
             }
             .flashEffect(isFlashing: engine.isFlashing)
-            .opacity(1)
-            .animation(DriftAnimations.fadeIn, value: true)
-
-            // Signature
-            VStack {
-                Spacer()
-                Text("DESIGNED FOR ADHD BRAINS")
-                    .font(DriftFonts.spaceGrotesk(9))
-                    .tracking(0.15 * 9)
-                    .foregroundColor(DriftColors.disabled)
-                    .padding(.bottom, 20)
-            }
 
             // Overlays
             VStack {
@@ -90,6 +72,6 @@ struct DriftPanelView: View {
                     .padding(.bottom, 12)
             }
         }
-        .frame(width: 280, height: 420)
+        .frame(width: Self.size.width, height: Self.size.height)
     }
 }

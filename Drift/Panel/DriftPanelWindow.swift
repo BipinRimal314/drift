@@ -4,7 +4,7 @@ import SwiftUI
 final class DriftPanelWindow: NSPanel {
     init<Content: View>(contentView: Content) {
         super.init(
-            contentRect: NSRect(x: 0, y: 0, width: 280, height: 420),
+            contentRect: NSRect(origin: .zero, size: DriftPanelView.size),
             styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
             defer: false

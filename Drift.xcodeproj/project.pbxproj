@@ -25,7 +25,6 @@
 		CF0CB254608B77F8A96C29C4 /* DriftTimeEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675F8642F3FCD64A43B44C9B /* DriftTimeEngine.swift */; };
 		DFA63CA68F58A59009C3500E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885C4BE1C2D5F01B0AC6682C /* AppDelegate.swift */; };
 		E76A9A78D83ED90074D6D394 /* DriftFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5950A72AA30C1D63A427E550 /* DriftFonts.swift */; };
-		EBF9931F2182B9085D7B604C /* DecorativeRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADB80AF3D5F0EA76BFF8FE4 /* DecorativeRingView.swift */; };
 		ECF11542596170A83DB72072 /* DriftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80473000068BB96DF392A468 /* DriftApp.swift */; };
 		F0DEEFFA033415FAD046F344 /* ButtonRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A17D6F1D5D7370ACA29C7 /* ButtonRowView.swift */; };
 		FDBFC6E7D1CD95C03539AF68 /* DriftPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706F5967CAFB3BD70CFAF2A3 /* DriftPanelView.swift */; };
@@ -56,7 +55,6 @@
 		80473000068BB96DF392A468 /* DriftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriftApp.swift; sourceTree = "<group>"; };
 		858FD42D293A65E468504565 /* View+FlashEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+FlashEffect.swift"; sourceTree = "<group>"; };
 		885C4BE1C2D5F01B0AC6682C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8ADB80AF3D5F0EA76BFF8FE4 /* DecorativeRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorativeRingView.swift; sourceTree = "<group>"; };
 		8B27A7FEEF44D1AF675507B7 /* ShiftConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftConfig.swift; sourceTree = "<group>"; };
 		90E6B54DD58F0ADA2C51C397 /* ProgressRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
 		98BEDA9F0A0CA9412CF55628 /* DriftColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriftColors.swift; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 			children = (
 				506A17D6F1D5D7370ACA29C7 /* ButtonRowView.swift */,
 				5616B3A5F497888D47EA8FA5 /* CenterContentView.swift */,
-				8ADB80AF3D5F0EA76BFF8FE4 /* DecorativeRingView.swift */,
 				706F5967CAFB3BD70CFAF2A3 /* DriftPanelView.swift */,
 				F4936653326C1CC27412714C /* DriftPanelWindow.swift */,
 				F10611355887E6FAC6A021FF /* InfoOverlayView.swift */,
@@ -209,9 +206,10 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 68F4AD629CB425B82407650A /* Build configuration list for PBXProject "Drift" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -221,6 +219,7 @@
 			mainGroup = 1DCFB184D941DDFAE30E78F8;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 0EA67573775347F2DA7F1A99 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -239,7 +238,6 @@
 				F0DEEFFA033415FAD046F344 /* ButtonRowView.swift in Sources */,
 				8883523CE057C0EAC76AC6AD /* CenterContentView.swift in Sources */,
 				16DAC9FCB3A6380781F3D924 /* Color+Hex.swift in Sources */,
-				EBF9931F2182B9085D7B604C /* DecorativeRingView.swift in Sources */,
 				4909687DFCD2997A649160A1 /* DriftAnimations.swift in Sources */,
 				ECF11542596170A83DB72072 /* DriftApp.swift in Sources */,
 				AB56031FED655C55514D3327 /* DriftColors.swift in Sources */,
