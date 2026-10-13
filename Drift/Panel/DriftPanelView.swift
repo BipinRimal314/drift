@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct DriftPanelView: View {
-    static let size = CGSize(width: 280, height: 372)
+    static let size = CGSize(width: 280, height: 340)
 
     let engine: DriftTimeEngine
 
@@ -23,12 +23,6 @@ struct DriftPanelView: View {
 
             // Main content
             VStack(spacing: 16) {
-                // Title
-                Text("DRIFT")
-                    .font(DriftFonts.spaceGroteskMedium(11))
-                    .tracking(0.2 * 11)
-                    .foregroundColor(DriftColors.textTertiary)
-
                 // Ring area
                 ZStack {
                     TickMarksView(percentage: engine.percentage, phase: engine.phase)
